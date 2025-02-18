@@ -15,10 +15,15 @@ public class Vista extends javax.swing.JFrame {
  private Controlador controlador;
  private ListarIU listaIU;
       
-public Vista() {
+
+
+    public Vista() {
         initComponents();
+        this.controlador = controlador;
+        this.listaIU = listaIU;
+    }
+
    
-}
     // Código de inicialización Swing para crear la interfaz gráfica
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -212,7 +217,7 @@ public Vista() {
     }//GEN-LAST:event_rdbNoDisponibleActionPerformed
 
     private void bttAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttAgregarProductoActionPerformed
-  this.controlador.agregarProducto();
+    this.controlador.agregarProducto();
     }//GEN-LAST:event_bttAgregarProductoActionPerformed
 
     private void bttSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttSalir1ActionPerformed
@@ -232,6 +237,12 @@ public Vista() {
                                              
       
     }//GEN-LAST:event_bttLimpiarActionPerformed
+
+    
+    private void mntListaProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mntListaProActionPerformed
+    listaIU.setVisible(true);
+    controlador.listarProductos();
+    }//GEN-LAST:event_mntListaProActionPerformed
  public String getNombre() {
         // Obtener nombre desde el campo de texto
         return "";
@@ -255,12 +266,6 @@ public Vista() {
      txtfNombreProducto.setText("");
      txtfPrecioProducto.setText("");
     } 
-    
-    private void mntListaProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mntListaProActionPerformed
-    listaIU.setVisible(true);
-    controlador.listarProductos();
-    }//GEN-LAST:event_mntListaProActionPerformed
-
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

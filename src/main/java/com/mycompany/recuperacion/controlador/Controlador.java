@@ -13,18 +13,13 @@ import com.mycompany.recuperacion.vista.Vista;
 
 
 
-/**
- *
- * @author Usuario
- */
-
 public class Controlador {
 
     private Vista principal;
     private ListarIU listaIU;
     private GestorProducto gestorProducto;
 
-    public Controlador() {
+    public Controlador(Vista principal, ListarIU listar) {
         this.principal = principal;
         this.listaIU = listaIU;
         this.gestorProducto = new GestorProducto();
@@ -45,18 +40,31 @@ public class Controlador {
     }
 
     public void listarProductos() {
-        Producto[] productos = gestorProducto.listarProductos();
-        StringBuilder lista = new StringBuilder();
-
-        for (Producto producto : productos) {
-            if (producto != null) {
-                lista.append("ID: ").append(producto.getId()).append("\n")
-                     .append("Nombre: ").append(producto.getNombre()).append("\n")
-                     .append("Precio: ").append(producto.getPrecio()).append("\n")
-                     .append("Disponible: ").append(producto.isDisponible()).append("\n\n");
+     try {
+            String msm = "";
+            Producto[] productos = new Producto[5];
+            productos = gestorProducto.listarProducto();
+      if (productos != null) {
+                String lista = "";
+                for (int i = 0; i < productos.length; i++) {
+                    if (productos[i] != null) {
+                        lista = lista + "id:" + productos[i].getId() + "\n"
+                                + "Titulo:" + productos[i].getNombre()+ "\n"
+                        
+                                + "Estado:" + productos[i].isDisponible()+ "\n";
+                    }
+                }
+                msm = lista;
+            } else {
+                msm = "No hay datos que mostrar";
             }
-        }
+            listaIU.mostrarDatos(msm);
 
-        listaIU.mostrarDatos(lista.toString());
+        } catch (Exception e) {
+            System.out.println("Error Controlador-listarTarea: " + e);
+        }
     }
 }
+
+    
+
