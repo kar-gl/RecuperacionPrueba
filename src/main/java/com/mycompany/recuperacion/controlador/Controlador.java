@@ -4,89 +4,59 @@
  */
 package com.mycompany.recuperacion.controlador;
 
-import com.mycompany.recuperacion.modelo.GestorProductos;
+import com.mycompany.recuperacion.modelo.GestorProducto;
 import com.mycompany.recuperacion.modelo.Producto;
+
+import com.mycompany.recuperacion.vista.ListarIU;
+
 import com.mycompany.recuperacion.vista.Vista;
-import javax.swing.JOptionPane;
+
 
 
 /**
  *
  * @author Usuario
  */
+
 public class Controlador {
-  private GestorProductos modelo;  
-  private Vista vista;
 
-    public Controlador(GestorProductos modelo, Vista vista) {
-        this.modelo = modelo;
-        this.vista = vista;
+    private Vista principal;
+    private ListarIU listaIU;
+    private GestorProducto gestorProducto;
+
+    public Controlador() {
+        this.principal = principal;
+        this.listaIU = listaIU;
+        this.gestorProducto = new GestorProducto();
     }
-    private void agregarProducto(){
-        String nombre = vista.getTxtfNombreProducto().getText().trim();
-        String IdTexto = vista.getTxtfID().getText().trim();
-        String precioTexto =vista.getTxtfPrecioProducto().getText().trim();
-         
-        if (IdTexto.isEmpty()) {
-            JOptionPane.showMessageDialog(vista,"El ID es obligatorio.");
-            return;
-        }
-        if (nombre.isEmpty()) {
-            JOptionPane.showMessageDialog(vista,"El nombre es obligatorio.");
-            return; 
-        }
-        if (precioTexto.isEmpty()) {
-            JOptionPane.showMessageDialog(vista,"El precio es obligatorio.");
-            return;  
-        }
 
-
-        
+    public void agregarProducto() {
         try {
-            int id = Integer.parseInt(IdTexto); //entero
-            double precio = 0.0; 
-             
-            try{
-                precio = Double.parseDouble(precioTexto);
-            }catch(NumberFormatException e) {
-                System.out.println("El precio debe ser un número válido.");
-                return; 
+            Producto producto = new Producto();
+            producto.setNombre(principal.getNombre());
+            producto.setPrecio(principal.getPrecio());
+            producto.setDisponible(principal.isDisponible());
+
+            String mensaje = gestorProducto.agregarProducto(producto);
+            principal.mostrarMensaje(mensaje);
+        } catch (Exception e) {
+            principal.mostrarMensaje("Error: " + e.getMessage());
+        }
+    }
+
+    public void listarProductos() {
+        Producto[] productos = gestorProducto.listarProductos();
+        StringBuilder lista = new StringBuilder();
+
+        for (Producto producto : productos) {
+            if (producto != null) {
+                lista.append("ID: ").append(producto.getId()).append("\n")
+                     .append("Nombre: ").append(producto.getNombre()).append("\n")
+                     .append("Precio: ").append(producto.getPrecio()).append("\n")
+                     .append("Disponible: ").append(producto.isDisponible()).append("\n\n");
             }
-          
-            Producto producto = new Producto( nombre, id,  precio, true); 
-            modelo.agregarProducto(producto);
-
-         
-         } catch (NumberFormatException e) {
-           
-            System.out.println("El ID y el precio deben ser números válidos.");
         }
+
+        listaIU.mostrarDatos(lista.toString());
     }
-
-
-   public void limpiarCampos() {
-        vista.getTxtfNombreProducto().setText("");
-        vista.getTxtfPrecioProducto().setText("");
-        vista.getTxtfID().setText("");
-        vista.getButtonGroup1().clearSelection();
-        vista.getTxtfID().setText("");
-        
-      
-    }
-
-    private void mostrarDisponibles() {
-        String productosDisponibles = modelo.obtenerProductosDisponibles();
-        vista.getTxtaDisponibles().setText(productosDisponibles.isEmpty() ? "No hay productos disponibles." : productosDisponibles);
-    }
-
-    private void mostrarNoDisponibles() {
-        String productosNoDisponibles = modelo.obtenerProductosNoDisponibles();
-        vista.getTxtaNoDisponibles().setText(productosNoDisponibles.isEmpty() ? "No hay productos no disponibles." : productosNoDisponibles);
-    }
-
-    private void salir() {
-        
-      System.exit(0);
-        }
-    }
-
+}
