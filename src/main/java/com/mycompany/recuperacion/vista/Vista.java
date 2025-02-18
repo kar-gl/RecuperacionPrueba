@@ -13,14 +13,16 @@ import com.mycompany.recuperacion.controlador.Controlador;
 
 public class Vista extends javax.swing.JFrame {
  private Controlador controlador;
- private ListarIU listaIU;
+ private ListarIU listar;
       
 
 
     public Vista() {
         initComponents();
-        this.controlador = controlador;
-        this.listaIU = listaIU;
+        
+        this.listar = new ListarIU();
+        this.controlador = new Controlador(this, listar);
+
     }
 
    
@@ -188,7 +190,7 @@ public class Vista extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtfPrecioProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -240,7 +242,7 @@ public class Vista extends javax.swing.JFrame {
 
     
     private void mntListaProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mntListaProActionPerformed
-    listaIU.setVisible(true);
+    listar.setVisible(true);
     controlador.listarProductos();
     }//GEN-LAST:event_mntListaProActionPerformed
  public String getNombre() {
@@ -258,9 +260,11 @@ public class Vista extends javax.swing.JFrame {
         return false;
     }
 
-    public void mostrarMensaje(String mensaje) {
-        // Mostrar mensaje en la interfaz
-    }   
+    public void error(String text){
+        lblError.setText(text);
+    }
+
+       
     public void limpiar(){
     
      txtfNombreProducto.setText("");

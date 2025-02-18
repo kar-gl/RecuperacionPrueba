@@ -11,60 +11,59 @@ import com.mycompany.recuperacion.vista.ListarIU;
 
 import com.mycompany.recuperacion.vista.Vista;
 
-
-
 public class Controlador {
 
     private Vista principal;
-    private ListarIU listaIU;
+    private ListarIU listar;
     private GestorProducto gestorProducto;
 
     public Controlador(Vista principal, ListarIU listar) {
         this.principal = principal;
-        this.listaIU = listaIU;
+        this.listar = listar;
         this.gestorProducto = new GestorProducto();
     }
 
     public void agregarProducto() {
         try {
-            Producto producto = new Producto();
-            producto.setNombre(principal.getNombre());
-            producto.setPrecio(principal.getPrecio());
-            producto.setDisponible(principal.isDisponible());
+            if (this.principal != null) {
 
-            String mensaje = gestorProducto.agregarProducto(producto);
-            principal.mostrarMensaje(mensaje);
+                Producto producto = new Producto();
+                producto.setNombre(principal.getNombre());
+                producto.setPrecio(principal.getPrecio());
+                producto.setDisponible(principal.isDisponible());
+                String msm = gestorProducto.agregarProducto(producto);
+                principal.error(msm);
+
+            } else {
+                principal.error("Completa los datos!");
+            }
         } catch (Exception e) {
-            principal.mostrarMensaje("Error: " + e.getMessage());
+            principal.error("Error controlado: " + e.getMessage());
         }
     }
 
     public void listarProductos() {
-     try {
+        try {
             String msm = "";
             Producto[] productos = new Producto[5];
             productos = gestorProducto.listarProducto();
-      if (productos != null) {
+            if (productos != null) {
                 String lista = "";
                 for (int i = 0; i < productos.length; i++) {
                     if (productos[i] != null) {
                         lista = lista + "id:" + productos[i].getId() + "\n"
-                                + "Titulo:" + productos[i].getNombre()+ "\n"
-                        
-                                + "Estado:" + productos[i].isDisponible()+ "\n";
+                                + "Titulo:" + productos[i].getNombre() + "\n"
+                                + "Estado:" + productos[i].isDisponible() + "\n";
                     }
                 }
                 msm = lista;
             } else {
                 msm = "No hay datos que mostrar";
             }
-            listaIU.mostrarDatos(msm);
+            listar.mostrarDatos(msm);
 
         } catch (Exception e) {
             System.out.println("Error Controlador-listarTarea: " + e);
         }
     }
 }
-
-    
-

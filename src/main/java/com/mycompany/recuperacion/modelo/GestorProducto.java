@@ -22,6 +22,7 @@ public class GestorProducto {
                     producto[i] = new Producto();
                     producto[i].setId(i);
                     producto[i].setNombre(productos.getNombre());
+                    producto[i].setPrecio(productos.getPrecio());
                     producto[i].setDisponible(productos.isDisponible());
                     cont++;
                      
